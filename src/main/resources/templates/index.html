@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Weather Forecast</title>
+    <style>
+        body { font-family: Arial; max-width: 600px; margin: 50px auto; padding: 20px; text-align: center; }
+        .error { color: red; }
+        .cache { color: green; }
+        .fresh { color: orange; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 8px; border: 1px solid #ddd; text-align: center; }
+        th { background: #f0f0f0; }
+        input { padding: 5px; margin-right: 10px; }
+        button { padding: 5px 15px; }
+    </style>
+</head>
+<body>
+    <h2>Weather Forecast</h2>
+    
+    <form action="/forecast" method="get">
+        <input type="text" name="zip" placeholder="Enter ZIP code" required pattern="[0-9]{5}" />
+        <button type="submit">Get Forecast</button>
+    </form>
+
+    <div th:if="${error}" class="error" th:text="${error}"></div>
+
+    <div th:if="${weather}">
+        <h3>ZIP: <span th:text="${weather.zip}"></span></h3>
+        
+        <p th:if="${fromCache}" class="cache">(from cache)</p>
+        <p th:if="${!fromCache}" class="fresh">(fresh from API)</p>
+        
+        <div>
+            <strong>Current:</strong> <span th:text="${weather.temp}"></span>°F | 
+            <strong>High:</strong> <span th:text="${weather.tempMax}"></span>°F | 
+            <strong>Low:</strong> <span th:text="${weather.tempMin}"></span>°F
+        </div>
+        
+        <table th:if="${weather.forecast != null && !weather.forecast.isEmpty()}">
+            <tr>
+                <th>Date</th>
+                <th>High</th>
+                <th>Low</th>
+                <th>Condition</th>
+            </tr>
+            <tr th:each="day : ${weather.forecast}">
+                <td th:text="${day.date}"></td>
+                <td th:text="${#numbers.formatDecimal(day.tempHigh, 1, 1)} + '°F'"></td>
+                <td th:text="${#numbers.formatDecimal(day.tempLow, 1, 1)} + '°F'"></td>
+                <td th:text="${day.description}"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
+
