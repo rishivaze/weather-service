@@ -23,17 +23,3 @@ mvn spring-boot:run
 1. Open `http://localhost:8080`
 2. Enter a 5-digit ZIP code (e.g., 10001)
 
-**Cache Behavior:**
-- First request → "(fresh from API)" (orange)
-- Within 30 min → "(from cache)" (green)
-- After 30 min → Cache expires, fetches fresh data
-
-## Configuration
-
-`src/main/resources/application.properties`:
-```properties
-weather.api.key=ab0d0c967c1e33f3e973a8bece412dd3
-spring.cache.caffeine.spec=expireAfterWrite=30m,maximumSize=100
-server.port=8080
-```
-
