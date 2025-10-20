@@ -21,5 +21,5 @@ mvn spring-boot:run
 ## Usage
 
 1. Open `http://localhost:8080`
-2. Enter a 5-digit ZIP code (e.g., 10001)
+2. Enter a 5-digit ZIP code (e.g. 10001) and click on "Get Forecast" button.
 
